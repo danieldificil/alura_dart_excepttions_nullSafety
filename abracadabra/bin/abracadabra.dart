@@ -1,10 +1,46 @@
+import 'dart:math';
 import 'controllers/bank_controller.dart';
 import 'exceptions/bank_controler_exceptions.dart';
 import 'models/account.dart';
 
+
+void testingNullSafety() {
+  Account? myAccount = Account(name: "Ricarth", balance: 200, isAuthenticated: true);
+
+  //Simulando comunicação externa
+  Random rng = Random();
+  int randomNumber = rng.nextInt(10);
+  if(randomNumber <= 5) {
+    myAccount.createdAt = DateTime.now();
+  }
+
+  // nao funciona pois o resultado pode ser nulo print(myAccount.balance);
+  // conversao direta é uma ma prática print(myAccount!.balance);
+  print(myAccount.createdAt);
+  // print(myAccount.createdAt.day);
+  // print(myAccount!.createdAt);
+  //jeito 1 (if/else)
+
+  if(myAccount != null){
+    print(myAccount.balance);
+    if(myAccount.createdAt != null) {
+      print(myAccount.createdAt!.day);
+    }
+  } else{
+    print("Conta nula");
+  }
+
+  //jeito 2 (ternario)
+
+  // print(myAccount != null ? myAccount.balance : "Conta nula");
+
+  //jeito 3 (safe call)
+
+  // print(myAccount?.balance);
+}
+
 void main() {
-  String? naoPodeSerNula;
-  print(naoPodeSerNula.runtimeType);
+  testingNullSafety();
   // Criando o banco
   BankController bankController = BankController();
 
